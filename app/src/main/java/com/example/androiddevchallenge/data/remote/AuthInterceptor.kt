@@ -13,13 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge.ui.theme
+package com.example.androiddevchallenge.data.remote
 
-import androidx.compose.ui.graphics.Color
+import com.example.androiddevchallenge.data.preferences.Session
+import okhttp3.Interceptor
+import okhttp3.Response
+import javax.inject.Inject
+import javax.inject.Singleton
 
-val Yellow800 = Color(0xFFF29F05)
-val colorTextHeading = Color(0xFF163262)
-val colorTextBody = Color(0xFF4E4B66)
-val colorBodyLight = Color(0xFFB0B0C3)
-val colorBackground = Color(0xFFF7F7F7)
-val secondary = Color(0xFFFFB19D)
+@Singleton
+class AuthInterceptor @Inject constructor(
+    private val session: Session
+) : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val authRequest = chain.request().newBuilder().apply {
+            session.getToken()?.let { header("Authorization", "Bearer $it") }
+        }.build()
+        return chain.proceed(authRequest)
+    }
+}

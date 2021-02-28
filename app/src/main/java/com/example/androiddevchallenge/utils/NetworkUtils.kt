@@ -13,13 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge.ui.theme
+package com.example.androiddevchallenge.utils
 
-import androidx.compose.ui.graphics.Color
+import com.example.androiddevchallenge.model.Result
+import retrofit2.Response
 
-val Yellow800 = Color(0xFFF29F05)
-val colorTextHeading = Color(0xFF163262)
-val colorTextBody = Color(0xFF4E4B66)
-val colorBodyLight = Color(0xFFB0B0C3)
-val colorBackground = Color(0xFFF7F7F7)
-val secondary = Color(0xFFFFB19D)
+object NetworkUtils {
+
+    const val BASE_URL = "https://api.petfinder.com/v2/"
+    const val CLIENT_ID = "nNQA8PZYVmRQ4pWz2aBbdUt2IWudFaOkfZ74Els9ge5WALBmG1"
+    const val SECRET_KEY = "WvE5Mwu3kUGaIYtpHwd4C1J9ePxnEtgKIJX7sxAn"
+}
+
+fun <T : Any> Response<T>.call(): Result<T> {
+    val response = body()
+    return if (this.isSuccessful && response != null) {
+        Result.Success(response)
+    } else
+        Result.Error(errorBody().toString())
+}

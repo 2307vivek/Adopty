@@ -13,13 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge.ui.theme
+package com.example.androiddevchallenge.model
 
-import androidx.compose.ui.graphics.Color
+data class Pet(
+    val id: Int,
+    val name: String,
+    val gender: String,
+    val photos: List<PetPhoto>,
+    val age: String,
+    val breeds: PetBreeds
+)
 
-val Yellow800 = Color(0xFFF29F05)
-val colorTextHeading = Color(0xFF163262)
-val colorTextBody = Color(0xFF4E4B66)
-val colorBodyLight = Color(0xFFB0B0C3)
-val colorBackground = Color(0xFFF7F7F7)
-val secondary = Color(0xFFFFB19D)
+data class PetListResponse(
+    val animals: List<Pet>
+)
+
+data class PetBreeds(
+    val primary: String,
+    val secondary: String
+)
+
+data class PetPhoto(
+    val small: String,
+    val medium: String,
+    val large: String,
+    val full: String
+)

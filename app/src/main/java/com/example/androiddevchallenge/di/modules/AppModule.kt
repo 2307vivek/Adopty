@@ -13,13 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge.ui.theme
+package com.example.androiddevchallenge.di.modules
 
-import androidx.compose.ui.graphics.Color
+import android.app.Application
+import com.example.androiddevchallenge.data.preferences.Session
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-val Yellow800 = Color(0xFFF29F05)
-val colorTextHeading = Color(0xFF163262)
-val colorTextBody = Color(0xFF4E4B66)
-val colorBodyLight = Color(0xFFB0B0C3)
-val colorBackground = Color(0xFFF7F7F7)
-val secondary = Color(0xFFFFB19D)
+@InstallIn(SingletonComponent::class)
+@Module
+class AppModule {
+
+    @Singleton
+    @Provides
+    fun provideSession(application: Application) =
+        Session(application)
+}
