@@ -33,6 +33,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ContentAlpha
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -147,7 +149,12 @@ fun DogBreedContent(
             }
         } else if (pets.isSuccessfull) {
             items(pets.data!!.animals) { pet ->
-                PetItem(pet)
+                PetItem(
+                    pet,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth()
+                )
             }
         }
     }
@@ -170,12 +177,11 @@ fun PetItem(
     pet: Pet,
     modifier: Modifier = Modifier
 ) {
-    Surface(modifier = modifier) {
+    Surface {
         Row(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
+            modifier = modifier,
             horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
 
             PetImage(
@@ -189,6 +195,14 @@ fun PetItem(
                     .padding(end = 8.dp),
                 pet = pet
             )
+            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_more_vert_24),
+                        contentDescription = "More icon"
+                    )
+                }
+            }
         }
     }
 }

@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -56,7 +57,7 @@ fun DogSpecialNeedList(
         DogSpecialNeedsContent(
             dogState = dogState,
             lazyListState = lazyListState,
-            modifier = modifier
+            modifier = modifier.wrapContentHeight(unbounded = true)
         )
     }
 }
