@@ -19,6 +19,6 @@ import androidx.compose.runtime.Composable
 import com.example.androiddevchallenge.ui.screen.home.HomeScreen
 
 @Composable
-fun WoofApp() {
+fun AdoptyApp() {
     HomeScreen()
 }

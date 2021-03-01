@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             WoofTheme {
-                WoofApp()
+                AdoptyApp()
             }
         }
     }
