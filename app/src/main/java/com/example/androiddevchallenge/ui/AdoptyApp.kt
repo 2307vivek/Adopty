@@ -16,9 +16,40 @@
 package com.example.androiddevchallenge.ui
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.androiddevchallenge.ui.navigation.Screen
+import com.example.androiddevchallenge.ui.screen.dogDetails.DogDetailScreen
 import com.example.androiddevchallenge.ui.screen.home.HomeScreen
+import com.example.androiddevchallenge.ui.screen.home.HomeViewModel
 
 @Composable
 fun AdoptyApp() {
-    HomeScreen()
+    AdoptyNavigation()
+}
+
+@Composable
+fun AdoptyNavigation() {
+    val navController = rememberNavController()
+    val viewModel: HomeViewModel = viewModel()
+    NavHost(
+        navController = navController,
+        startDestination = Screen.Home.route,
+    ) {
+        composable(Screen.Home.route) {
+            HomeScreen(
+                viewModel = viewModel,
+                navController = navController,
+                navBackStackEntry = it
+            )
+        }
+        composable(Screen.DogDetail.route) {
+            DogDetailScreen(
+                viewModel = viewModel,
+                navController = navController
+            )
+        }
+    }
 }

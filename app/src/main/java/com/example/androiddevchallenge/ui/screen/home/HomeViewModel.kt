@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androiddevchallenge.data.repository.PetRepository
 import com.example.androiddevchallenge.model.DogBreed
+import com.example.androiddevchallenge.model.Pet
 import com.example.androiddevchallenge.model.PetListResponse
 import com.example.androiddevchallenge.model.PetState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,8 +41,13 @@ class HomeViewModel @Inject constructor(
     private val _petState = MutableStateFlow<PetState<PetListResponse>?>(null)
     private val _state = MutableStateFlow(HomeScreenViewState())
 
+    private val _selectedDog = MutableStateFlow<Pet?>(null)
+
     val state: StateFlow<HomeScreenViewState>
         get() = _state
+
+    val selectedDog: StateFlow<Pet?>
+        get() = _selectedDog
 
     init {
         onBreedSelected(DogBreed("Affenpinscher"))
@@ -75,6 +81,10 @@ class HomeViewModel @Inject constructor(
     fun onBreedSelected(breed: DogBreed) {
         _selectedBreed.value = breed
         getPets(breed)
+    }
+
+    fun onDogSelected(dog: Pet) {
+        _selectedDog.value = dog
     }
 
     data class HomeScreenViewState(

@@ -16,6 +16,7 @@
 package com.example.androiddevchallenge.ui.screen.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -51,17 +52,24 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavController
+import androidx.navigation.compose.navigate
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.model.DogBreed
 import com.example.androiddevchallenge.model.Pet
 import com.example.androiddevchallenge.model.PetListResponse
 import com.example.androiddevchallenge.model.PetState
+import com.example.androiddevchallenge.ui.navigation.Screen
 import com.example.androiddevchallenge.ui.screen.home.specialNeeds.DogSpecialNeedList
 import dev.chrisbanes.accompanist.coil.CoilImage
 
 @Composable
-fun HomeScreen() {
-    val viewModel: HomeViewModel = viewModel()
+fun HomeScreen(
+    viewModel: HomeViewModel,
+    navController: NavController,
+    navBackStackEntry: NavBackStackEntry
+) {
     val viewState by viewModel.state.collectAsState()
     val dogsSpecialNeedLazyListState = rememberLazyListState()
 
@@ -76,7 +84,12 @@ fun HomeScreen() {
                 selectedBreed = viewState.selectedBreed,
                 dogBreeds = viewState.dogBreeds,
                 petState = viewState.petState,
-                lazyListState = dogsSpecialNeedLazyListState
+                lazyListState = dogsSpecialNeedLazyListState,
+                navBackStackEntry = navBackStackEntry,
+                onDogSelected = {
+                    viewModel.onDogSelected(it)
+                    navController.navigate(Screen.DogDetail.route)
+                }
             )
         }
     )
@@ -89,7 +102,9 @@ fun DogContent(
     selectedBreed: DogBreed?,
     dogBreeds: List<DogBreed>,
     petState: PetState<PetListResponse>?,
-    lazyListState: LazyListState
+    lazyListState: LazyListState,
+    onDogSelected: (Pet) -> Unit,
+    navBackStackEntry: NavBackStackEntry
 ) {
     if (dogBreeds.isNotEmpty() && selectedBreed != null) {
         Column(modifier = modifier) {
@@ -103,7 +118,9 @@ fun DogContent(
             DogBreedContent(
                 pets = petState!!,
                 lazyListState = lazyListState,
-                modifier = Modifier.fillMaxSize()
+                onDogSelected = onDogSelected,
+                modifier = Modifier.fillMaxSize(),
+                navBackStackEntry = navBackStackEntry
             )
         }
     } else {
@@ -115,12 +132,16 @@ fun DogContent(
 fun DogBreedContent(
     pets: PetState<PetListResponse>,
     lazyListState: LazyListState,
+    onDogSelected: (Pet) -> Unit,
+    navBackStackEntry: NavBackStackEntry,
     modifier: Modifier
 ) {
     LazyColumn(modifier = modifier) {
         item {
             DogSpecialNeedList(
                 lazyListState = lazyListState,
+                navBackStackEntry = navBackStackEntry,
+                onDogSelected = onDogSelected,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 20.dp)
@@ -151,6 +172,7 @@ fun DogBreedContent(
             items(pets.data!!.animals) { pet ->
                 PetItem(
                     pet,
+                    onClick = onDogSelected,
                     modifier = Modifier
                         .padding(16.dp)
                         .fillMaxWidth()
@@ -175,9 +197,15 @@ fun DogHeading(
 @Composable
 fun PetItem(
     pet: Pet,
+    onClick: (Pet) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Surface {
+    Surface(
+        modifier = Modifier.clickable(
+            enabled = true,
+            onClick = { onClick(pet) }
+        )
+    ) {
         Row(
             modifier = modifier,
             horizontalArrangement = Arrangement.SpaceBetween,

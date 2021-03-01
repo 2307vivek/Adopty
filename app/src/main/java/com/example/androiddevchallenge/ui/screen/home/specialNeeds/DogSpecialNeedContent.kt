@@ -15,6 +15,7 @@
  */
 package com.example.androiddevchallenge.ui.screen.home.specialNeeds
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,10 +27,12 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -37,8 +40,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavBackStackEntry
 import com.example.androiddevchallenge.model.Pet
 import com.example.androiddevchallenge.model.PetListResponse
 import com.example.androiddevchallenge.model.PetState
@@ -48,15 +54,19 @@ import com.example.androiddevchallenge.ui.screen.home.PetImage
 @Composable
 fun DogSpecialNeedList(
     lazyListState: LazyListState,
+    navBackStackEntry: NavBackStackEntry,
+    onDogSelected: (Pet) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val viewModel: DogSpecialNeedViewModel = viewModel()
+    val viewModel: DogSpecialNeedViewModel =
+        viewModel(null, HiltViewModelFactory(LocalContext.current, navBackStackEntry))
     val dogState by viewModel.dogsState.collectAsState()
 
     Column(modifier = modifier) {
         DogSpecialNeedsContent(
             dogState = dogState,
             lazyListState = lazyListState,
+            onDogSelected = onDogSelected,
             modifier = modifier.wrapContentHeight(unbounded = true)
         )
     }
@@ -66,6 +76,7 @@ fun DogSpecialNeedList(
 fun DogSpecialNeedsContent(
     dogState: PetState<PetListResponse>,
     lazyListState: LazyListState,
+    onDogSelected: (Pet) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -74,7 +85,7 @@ fun DogSpecialNeedsContent(
         DogHeading(
             text = "Dogs needing special care",
             modifier = Modifier
-                .padding(bottom = 16.dp, start = 16.dp, top = 8.dp)
+                .padding(bottom = 8.dp, start = 16.dp, top = 8.dp)
                 .fillMaxWidth()
         )
         if (dogState.loading) {
@@ -83,6 +94,7 @@ fun DogSpecialNeedsContent(
             DogSpecialNeedList(
                 lazyListState = lazyListState,
                 dogList = dogState.data!!.animals,
+                onDogSelected = onDogSelected,
                 modifier = modifier
             )
         } else if (!dogState.isSuccessfull) {
@@ -95,6 +107,7 @@ fun DogSpecialNeedsContent(
 fun DogSpecialNeedList(
     dogList: List<Pet>,
     lazyListState: LazyListState,
+    onDogSelected: (Pet) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -104,13 +117,19 @@ fun DogSpecialNeedList(
         itemsIndexed(dogList) { index, pet ->
 
             val padding = when (index) {
-                0 -> Modifier.padding(end = 8.dp, start = 16.dp)
-                dogList.lastIndex -> Modifier.padding(end = 16.dp, start = 8.dp)
-                else -> Modifier.padding(end = 8.dp, start = 8.dp)
+                0 -> Modifier.padding(end = 8.dp, start = 16.dp, top = 8.dp, bottom = 8.dp)
+                dogList.lastIndex -> Modifier.padding(
+                    end = 16.dp,
+                    start = 8.dp,
+                    top = 8.dp,
+                    bottom = 8.dp
+                )
+                else -> Modifier.padding(end = 8.dp, start = 8.dp, top = 8.dp, bottom = 8.dp)
             }
 
             DogSpecialNeedsItem(
                 dog = pet,
+                onDogSelected = onDogSelected,
                 modifier = padding
                     .width(140.dp)
             )
@@ -121,29 +140,38 @@ fun DogSpecialNeedList(
 @Composable
 fun DogSpecialNeedsItem(
     dog: Pet,
+    onDogSelected: (Pet) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
-        PetImage(
-            imageUrl = dog.photos.firstOrNull()?.large,
-            modifier = Modifier
-                .width(140.dp)
-                .height(210.dp)
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = dog.name,
-            maxLines = 1,
-            style = MaterialTheme.typography.body1
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-            Text(
-                dog.breeds.primary,
-                maxLines = 1,
-                style = MaterialTheme.typography.body2,
-                modifier = Modifier.requiredWidth(120.dp)
+    Surface(
+        modifier = Modifier.clickable(
+            enabled = true,
+            onClick = { onDogSelected(dog) }
+        ),
+        shape = RoundedCornerShape(4.dp)
+    ) {
+        Column(modifier = modifier) {
+            PetImage(
+                imageUrl = dog.photos.firstOrNull()?.large,
+                modifier = Modifier
+                    .width(140.dp)
+                    .height(210.dp)
             )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = dog.name,
+                maxLines = 1,
+                style = MaterialTheme.typography.body1
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                Text(
+                    dog.breeds.primary,
+                    maxLines = 1,
+                    style = MaterialTheme.typography.body2,
+                    modifier = Modifier.requiredWidth(120.dp)
+                )
+            }
         }
     }
 }
