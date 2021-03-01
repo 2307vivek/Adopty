@@ -17,10 +17,14 @@ package com.example.androiddevchallenge.ui.screen.home.specialNeeds
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentAlpha
@@ -30,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -41,62 +46,74 @@ import com.example.androiddevchallenge.ui.screen.home.PetImage
 
 @Composable
 fun DogSpecialNeedList(
-    pagerState: PagerState,
+    lazyListState: LazyListState,
     modifier: Modifier = Modifier
 ) {
     val viewModel: DogSpecialNeedViewModel = viewModel()
     val dogState by viewModel.dogsState.collectAsState()
 
-    DogSpecialNeedsContent(
-        dogState = dogState,
-        pagerState = pagerState,
-        modifier = modifier
-    )
+    Column(modifier = modifier) {
+        DogSpecialNeedsContent(
+            dogState = dogState,
+            lazyListState = lazyListState,
+            modifier = modifier
+        )
+    }
 }
 
 @Composable
 fun DogSpecialNeedsContent(
     dogState: PetState<PetListResponse>,
-    pagerState: PagerState,
+    lazyListState: LazyListState,
     modifier: Modifier = Modifier
 ) {
-    if (dogState.loading) {
-        CircularProgressIndicator()
-    } else if (dogState.isSuccessfull) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         DogHeading(
             text = "Dogs needing special care",
             modifier = Modifier
-                .padding(bottom = 8.dp, start = 16.dp, top = 8.dp)
+                .padding(bottom = 16.dp, start = 16.dp, top = 8.dp)
+                .fillMaxWidth()
         )
-        DogSpecialNeedsPager(
-            pagerState = pagerState,
-            dogList = dogState.data!!.animals,
-            modifier = modifier
-        )
-    } else if (!dogState.isSuccessfull) {
-        Text(text = "Error ${dogState.error}")
+        if (dogState.loading) {
+            CircularProgressIndicator()
+        } else if (dogState.isSuccessfull) {
+            DogSpecialNeedList(
+                lazyListState = lazyListState,
+                dogList = dogState.data!!.animals,
+                modifier = modifier
+            )
+        } else if (!dogState.isSuccessfull) {
+            Text(text = "Error ${dogState.error}")
+        }
     }
 }
 
 @Composable
-fun DogSpecialNeedsPager(
-    pagerState: PagerState,
+fun DogSpecialNeedList(
     dogList: List<Pet>,
+    lazyListState: LazyListState,
     modifier: Modifier = Modifier
 ) {
-    pagerState.maxPage = (dogList.size - 1).coerceAtLeast(0)
-
-    Pager(
-        state = pagerState,
+    LazyRow(
+        state = lazyListState,
         modifier = modifier
     ) {
-        val pet = dogList[page]
-        DogSpecialNeedsItem(
-            dog = pet,
-            modifier = Modifier
-                .padding(end = 8.dp, start = 8.dp)
-                .width(140.dp)
-        )
+        itemsIndexed(dogList) { index, pet ->
+
+            val padding = if (index == 0)
+                Modifier.padding(end = 8.dp, start = 16.dp)
+            else if (index == dogList.lastIndex)
+                Modifier.padding(end = 16.dp, start = 8.dp)
+            else Modifier.padding(end = 8.dp, start = 8.dp)
+
+            DogSpecialNeedsItem(
+                dog = pet,
+                modifier = padding
+                    .width(140.dp)
+            )
+        }
     }
 }
 
@@ -107,8 +124,7 @@ fun DogSpecialNeedsItem(
 ) {
     Column(modifier = modifier) {
         PetImage(
-            imageUrl =
-            dog.photos.firstOrNull()?.large,
+            imageUrl = dog.photos.firstOrNull()?.large,
             modifier = Modifier
                 .width(140.dp)
                 .height(210.dp)

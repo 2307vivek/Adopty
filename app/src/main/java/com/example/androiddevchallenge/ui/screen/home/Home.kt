@@ -27,7 +27,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ContentAlpha
@@ -41,11 +43,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.androiddevchallenge.R
@@ -54,14 +55,13 @@ import com.example.androiddevchallenge.model.Pet
 import com.example.androiddevchallenge.model.PetListResponse
 import com.example.androiddevchallenge.model.PetState
 import com.example.androiddevchallenge.ui.screen.home.specialNeeds.DogSpecialNeedList
-import com.example.androiddevchallenge.ui.screen.home.specialNeeds.PagerState
 import dev.chrisbanes.accompanist.coil.CoilImage
 
 @Composable
 fun HomeScreen() {
     val viewModel: HomeViewModel = viewModel()
     val viewState by viewModel.state.collectAsState()
-    val pagerState = remember { PagerState() }
+    val dogsSpecialNeedLazyListState = rememberLazyListState()
 
     Scaffold(
         topBar = {
@@ -74,7 +74,7 @@ fun HomeScreen() {
                 selectedBreed = viewState.selectedBreed,
                 dogBreeds = viewState.dogBreeds,
                 petState = viewState.petState,
-                pagerState = pagerState
+                lazyListState = dogsSpecialNeedLazyListState
             )
         }
     )
@@ -87,7 +87,7 @@ fun DogContent(
     selectedBreed: DogBreed?,
     dogBreeds: List<DogBreed>,
     petState: PetState<PetListResponse>?,
-    pagerState: PagerState
+    lazyListState: LazyListState
 ) {
     if (dogBreeds.isNotEmpty() && selectedBreed != null) {
         Column(modifier = modifier) {
@@ -100,7 +100,7 @@ fun DogContent(
 
             DogBreedContent(
                 pets = petState!!,
-                pagerState = pagerState,
+                lazyListState = lazyListState,
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -112,39 +112,42 @@ fun DogContent(
 @Composable
 fun DogBreedContent(
     pets: PetState<PetListResponse>,
-    pagerState: PagerState,
+    lazyListState: LazyListState,
     modifier: Modifier
 ) {
-    var topPadding = 0
-
     LazyColumn(modifier = modifier) {
-
         item {
             DogSpecialNeedList(
-                pagerState = pagerState,
+                lazyListState = lazyListState,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, bottom = 26.dp)
-                    .height(300.dp)
+                    .padding(bottom = 20.dp)
+                    .height(340.dp)
+            )
+        }
+
+        item {
+            DogHeading(
+                text = "Adopt a dog today",
+                modifier = Modifier
+                    .padding(start = 16.dp)
             )
         }
 
         if (pets.loading) {
-            item { CircularProgressIndicator() }
-        } else if (pets.isSuccessfull) {
             item {
-                DogHeading(
-                    text = "Adopt a dog today",
-                    modifier = Modifier
-                        .padding(bottom = 8.dp, start = 16.dp)
-                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+                }
             }
-            itemsIndexed(pets.data!!.animals) { index, pet ->
-                topPadding = if (index == 0) 4 else 1
-                PetItem(
-                    pet = pet,
-                    modifier = Modifier.padding(top = topPadding.dp)
-                )
+        } else if (pets.isSuccessfull) {
+            items(pets.data!!.animals) { pet ->
+                PetItem(pet)
             }
         }
     }
@@ -235,7 +238,6 @@ fun PetImage(
     }
 }
 
-@Preview
 @Composable
 fun HomeScreenTopAppBar() {
     TopAppBar(
