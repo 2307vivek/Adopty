@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.example.androiddevchallenge.R
 
 private val WorkSans = FontFamily(
-    Font(R.font.work_sans, FontWeight.Normal),
+    Font(R.font.work_sans_regular, FontWeight.Normal),
     Font(R.font.work_sans_medium, FontWeight.Medium),
     Font(R.font.work_sans_semibold, FontWeight.SemiBold),
     Font(R.font.work_sans_bold, FontWeight.Bold),

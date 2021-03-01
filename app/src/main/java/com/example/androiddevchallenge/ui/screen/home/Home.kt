@@ -122,7 +122,7 @@ fun DogBreedContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 20.dp)
-                    .height(340.dp)
+                    .height(350.dp)
             )
         }
 

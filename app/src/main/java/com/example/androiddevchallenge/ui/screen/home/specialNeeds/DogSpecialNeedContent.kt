@@ -102,11 +102,11 @@ fun DogSpecialNeedList(
     ) {
         itemsIndexed(dogList) { index, pet ->
 
-            val padding = if (index == 0)
-                Modifier.padding(end = 8.dp, start = 16.dp)
-            else if (index == dogList.lastIndex)
-                Modifier.padding(end = 16.dp, start = 8.dp)
-            else Modifier.padding(end = 8.dp, start = 8.dp)
+            val padding = when (index) {
+                0 -> Modifier.padding(end = 8.dp, start = 16.dp)
+                dogList.lastIndex -> Modifier.padding(end = 16.dp, start = 8.dp)
+                else -> Modifier.padding(end = 8.dp, start = 8.dp)
+            }
 
             DogSpecialNeedsItem(
                 dog = pet,
