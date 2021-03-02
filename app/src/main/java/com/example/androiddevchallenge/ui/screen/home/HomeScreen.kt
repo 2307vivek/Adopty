@@ -67,6 +67,7 @@ import dev.chrisbanes.accompanist.coil.CoilImage
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
+    onBulbClicked: () -> Unit,
     navController: NavController,
     navBackStackEntry: NavBackStackEntry
 ) {
@@ -75,7 +76,7 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            HomeScreenTopAppBar()
+            HomeScreenTopAppBar(onBulbClicked)
         },
         content = {
             DogContent(
@@ -283,12 +284,23 @@ fun PetImage(
 }
 
 @Composable
-fun HomeScreenTopAppBar() {
+fun HomeScreenTopAppBar(
+    onBulbClicked: () -> Unit
+) {
     TopAppBar(
         title = {
             Text("Woof.")
         },
         backgroundColor = MaterialTheme.colors.surface,
-        elevation = 0.dp
+        elevation = 0.dp,
+        actions = {
+            IconButton(onClick = { onBulbClicked() }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_bulb),
+                    contentDescription = "Change theme button",
+                    tint = MaterialTheme.colors.onSurface
+                )
+            }
+        }
     )
 }

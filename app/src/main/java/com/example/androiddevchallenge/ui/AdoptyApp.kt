@@ -26,12 +26,16 @@ import com.example.androiddevchallenge.ui.screen.home.HomeScreen
 import com.example.androiddevchallenge.ui.screen.home.HomeViewModel
 
 @Composable
-fun AdoptyApp() {
-    AdoptyNavigation()
+fun AdoptyApp(
+    onBulbClicked: () -> Unit
+) {
+    AdoptyNavigation(onBulbClicked)
 }
 
 @Composable
-fun AdoptyNavigation() {
+fun AdoptyNavigation(
+    onBulbClicked: () -> Unit
+) {
     val navController = rememberNavController()
     val viewModel: HomeViewModel = viewModel()
     NavHost(
@@ -42,7 +46,8 @@ fun AdoptyNavigation() {
             HomeScreen(
                 viewModel = viewModel,
                 navController = navController,
-                navBackStackEntry = it
+                navBackStackEntry = it,
+                onBulbClicked = onBulbClicked
             )
         }
         composable(Screen.DogDetail.route) {
