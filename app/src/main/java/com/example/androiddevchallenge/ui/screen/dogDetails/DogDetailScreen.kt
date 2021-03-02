@@ -57,6 +57,7 @@ import com.example.androiddevchallenge.model.Pet
 import com.example.androiddevchallenge.model.PetBreeds
 import com.example.androiddevchallenge.ui.screen.home.HomeViewModel
 import com.example.androiddevchallenge.ui.screen.home.PetImage
+import com.example.androiddevchallenge.ui.theme.colorDarkText
 import com.example.androiddevchallenge.ui.theme.colorTextBody
 
 @Composable
@@ -124,7 +125,10 @@ fun DogDetailContent(
         Text(
             text = DefaultData.defaultDescription,
             style = MaterialTheme.typography.body1,
-            color = colorTextBody.copy(alpha = 0.7f)
+            color = if (MaterialTheme.colors.isLight)
+                colorTextBody.copy(alpha = 0.7f)
+            else
+                colorDarkText.copy(alpha = 0.7f)
         )
         Spacer(modifier = Modifier.height(24.dp))
         AdopButton(
@@ -193,10 +197,19 @@ fun DogDetails(
 
 @Composable
 fun DogAttribute(name: String, attr: String) {
-    Box(
-        modifier = Modifier
+
+    val modifier = if (MaterialTheme.colors.isLight) {
+        Modifier
             .background(MaterialTheme.colors.primary.copy(alpha = 0.2f))
             .border(BorderStroke(2.dp, MaterialTheme.colors.primary))
+    } else {
+        Modifier
+            .background(MaterialTheme.colors.onBackground.copy(alpha = 0.12f))
+            .border(BorderStroke(2.dp, MaterialTheme.colors.onBackground))
+    }
+
+    Box(
+        modifier = modifier
             .padding(vertical = 16.dp, horizontal = 32.dp)
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {

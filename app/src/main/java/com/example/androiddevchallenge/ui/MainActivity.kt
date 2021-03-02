@@ -20,6 +20,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.Surface
 import com.example.androiddevchallenge.ui.theme.WoofTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,15 +31,17 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val darkTheme = isSystemInDarkTheme()
             WoofTheme {
-                AdoptyApp(
-                    onBulbClicked = {
-                        if (darkTheme) {
-                            setLightTheme()
-                        } else {
-                            setDarkTheme()
+                Surface {
+                    AdoptyApp(
+                        onBulbClicked = {
+                            if (darkTheme) {
+                                setLightTheme()
+                            } else {
+                                setDarkTheme()
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
     }
