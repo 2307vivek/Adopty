@@ -20,8 +20,11 @@ data class Pet(
     val name: String,
     val gender: String,
     val photos: List<PetPhoto>,
-    val age: String,
-    val breeds: PetBreeds
+    val age: String?,
+    val size: String?,
+    val coat: String?,
+    val breeds: PetBreeds,
+    val colors: PetColors
 )
 
 data class PetListResponse(
@@ -29,8 +32,14 @@ data class PetListResponse(
 )
 
 data class PetBreeds(
-    val primary: String,
-    val secondary: String
+    val primary: String?,
+    val secondary: String?
+)
+
+data class PetColors(
+    val primary: String?,
+    val secondary: String?,
+    val tertiary: String?,
 )
 
 data class PetPhoto(

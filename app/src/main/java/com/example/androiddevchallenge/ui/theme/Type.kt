@@ -47,6 +47,17 @@ val Typography = Typography(
         fontSize = 20.sp,
     ),
     button = TextStyle(
-        fontFamily = WorkSans
+        fontFamily = WorkSans,
+        fontWeight = FontWeight.SemiBold
+    ),
+    h4 = TextStyle(
+        fontFamily = WorkSans,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 26.sp,
+    ),
+    caption = TextStyle(
+        fontFamily = WorkSans,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 12.sp,
     )
 )

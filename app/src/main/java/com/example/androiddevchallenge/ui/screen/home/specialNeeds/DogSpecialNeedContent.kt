@@ -41,6 +41,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -161,12 +162,13 @@ fun DogSpecialNeedsItem(
             Text(
                 text = dog.name,
                 maxLines = 1,
-                style = MaterialTheme.typography.body1
+                style = MaterialTheme.typography.body1,
+                overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(4.dp))
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                 Text(
-                    dog.breeds.primary,
+                    dog.breeds.primary ?: "Unknown",
                     maxLines = 1,
                     style = MaterialTheme.typography.body2,
                     modifier = Modifier.requiredWidth(120.dp)

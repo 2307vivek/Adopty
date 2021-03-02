@@ -50,6 +50,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
@@ -260,9 +261,11 @@ fun PetName(
 @Composable
 fun PetImage(
     modifier: Modifier = Modifier,
-    imageUrl: String?
+    imageUrl: String?,
+    shape: RoundedCornerShape = RoundedCornerShape(4.dp),
+    elevation: Dp = 0.dp
 ) {
-    Surface(shape = RoundedCornerShape(4.dp)) {
+    Surface(shape = shape, elevation = elevation) {
         CoilImage(
             data = imageUrl ?: "",
             contentDescription = "Pet Image",
