@@ -15,7 +15,17 @@
  */
 package com.example.androiddevchallenge.ui
 
+import android.content.Context
+import android.net.ConnectivityManager
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -29,7 +39,24 @@ import com.example.androiddevchallenge.ui.screen.home.HomeViewModel
 fun AdoptyApp(
     onBulbClicked: () -> Unit
 ) {
-    AdoptyNavigation(onBulbClicked)
+    val context = LocalContext.current
+    var isOnline by remember { mutableStateOf(checkIfOnline(context)) }
+
+    // TODO: add some navigation
+    if (isOnline) {
+        AdoptyNavigation(onBulbClicked = onBulbClicked)
+    } else {
+        OfflineDialog { isOnline = checkIfOnline(context) }
+    }
+}
+
+// Taken from https://github.com/android/compose-samples/blob/main/Jetcaster/app/src/main/java/com/example/jetcaster/ui/JetcasterApp.kt
+// TODO: Use a better way to check internet connection
+@Suppress("DEPRECATION")
+private fun checkIfOnline(context: Context): Boolean {
+    val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetwork = cm.activeNetworkInfo
+    return activeNetwork?.isConnectedOrConnecting == true
 }
 
 @Composable
@@ -57,4 +84,18 @@ fun AdoptyNavigation(
             )
         }
     }
+}
+
+@Composable
+fun OfflineDialog(onRetry: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = {},
+        title = { Text(text = "No Internet") },
+        text = { Text(text = "No internet connection. Turn on Wifi or mobile data.") },
+        confirmButton = {
+            TextButton(onClick = onRetry) {
+                Text("Retry")
+            }
+        }
+    )
 }
