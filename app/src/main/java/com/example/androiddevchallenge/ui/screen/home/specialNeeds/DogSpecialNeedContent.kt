@@ -60,7 +60,7 @@ fun DogSpecialNeedList(
     modifier: Modifier = Modifier
 ) {
     val viewModel: DogSpecialNeedViewModel =
-        viewModel(null, HiltViewModelFactory(LocalContext.current, navBackStackEntry))
+        viewModel("", HiltViewModelFactory(LocalContext.current, navBackStackEntry))
     val dogState by viewModel.dogsState.collectAsState()
 
     Column(modifier = modifier) {
