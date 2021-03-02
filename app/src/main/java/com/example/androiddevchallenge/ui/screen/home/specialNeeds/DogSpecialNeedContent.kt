@@ -40,10 +40,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import com.example.androiddevchallenge.model.Pet
@@ -51,6 +49,7 @@ import com.example.androiddevchallenge.model.PetListResponse
 import com.example.androiddevchallenge.model.PetState
 import com.example.androiddevchallenge.ui.screen.home.DogHeading
 import com.example.androiddevchallenge.ui.screen.home.PetImage
+import com.example.androiddevchallenge.utils.hiltViewModel
 
 @Composable
 fun DogSpecialNeedList(
@@ -59,8 +58,7 @@ fun DogSpecialNeedList(
     onDogSelected: (Pet) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val viewModel: DogSpecialNeedViewModel =
-        viewModel("", HiltViewModelFactory(LocalContext.current, navBackStackEntry))
+    val viewModel: DogSpecialNeedViewModel = navBackStackEntry.hiltViewModel()
     val dogState by viewModel.dogsState.collectAsState()
 
     Column(modifier = modifier) {
