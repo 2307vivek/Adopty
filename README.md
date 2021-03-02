@@ -23,7 +23,7 @@ Adopty app uses the [Petfinders api] (https://www.petfinder.com/developers/v2/do
 
 ## :camera_flash: Dark Mode
 <!-- You can add more screenshots here if you like -->
-<img src="/results/screenshot_1_dark.png" width="260">&emsp;<img src="/results/screenshot_2_dark.png" width="260">
+<img src="/art/screenshot_1_dark.png" width="260">&emsp;<img src="/results/screenshot_2_dark.png" width="260">
 
 ## License
 ```
