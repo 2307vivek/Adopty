@@ -18,6 +18,9 @@ package com.example.androiddevchallenge.ui
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.Surface
 import com.example.androiddevchallenge.ui.theme.WoofTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,9 +29,28 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val darkTheme = isSystemInDarkTheme()
             WoofTheme {
-                AdoptyApp()
+                Surface {
+                    AdoptyApp(
+                        onBulbClicked = {
+                            if (darkTheme) {
+                                setLightTheme()
+                            } else {
+                                setDarkTheme()
+                            }
+                        }
+                    )
+                }
             }
         }
+    }
+
+    private fun setLightTheme() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+    }
+
+    private fun setDarkTheme() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
     }
 }

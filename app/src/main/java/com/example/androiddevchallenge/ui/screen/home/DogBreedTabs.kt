@@ -27,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.model.DogBreed
-import com.example.androiddevchallenge.ui.theme.colorTextBody
 
 @Composable
 fun DogBreedTabs(
@@ -73,7 +72,7 @@ fun DogBreedChip(
         },
         contentColor = when {
             selected -> MaterialTheme.colors.onPrimary
-            else -> colorTextBody
+            else -> MaterialTheme.colors.onBackground
         },
         shape = RoundedCornerShape(50),
         modifier = modifier
