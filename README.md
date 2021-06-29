@@ -5,7 +5,7 @@
 ![Workflow result](https://github.com/2307vivek/Adopty/workflows/Check/badge.svg)
 
 
-## :scroll: Description
+## Description
 <!---  -->
 Adopty is a 🐶 dog adoption sample application built to demonstrate Jetpack Compose Ui.
 
