@@ -22,6 +22,12 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="Theme.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#FFFFFF</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/Theme.AndroidDevChallenge.NoActionBar</item>
+    </style>
+
     <style name="Theme.AndroidDevChallenge.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
