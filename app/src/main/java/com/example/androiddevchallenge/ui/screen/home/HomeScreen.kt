@@ -62,6 +62,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.model.DogBreed
 import com.example.androiddevchallenge.model.Pet
@@ -69,7 +70,6 @@ import com.example.androiddevchallenge.model.PetListResponse
 import com.example.androiddevchallenge.model.PetState
 import com.example.androiddevchallenge.ui.navigation.Screen
 import com.example.androiddevchallenge.ui.screen.home.specialNeeds.DogSpecialNeedList
-import dev.chrisbanes.accompanist.coil.CoilImage
 
 @Composable
 fun HomeScreen(
@@ -273,19 +273,17 @@ fun PetImage(
     elevation: Dp = 0.dp
 ) {
     Surface(shape = shape, elevation = elevation) {
-        CoilImage(
-            data = imageUrl ?: "",
+        Image(
+            painter = rememberImagePainter(
+                data = imageUrl ?: "",
+                builder = {
+                    crossfade(true)
+                    error(R.drawable.ic_dog)
+                }
+            ),
             contentDescription = "Pet Image",
-            contentScale = ContentScale.Crop,
-            fadeIn = true,
             modifier = modifier,
-            error = {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_dog),
-                    contentDescription = "Dog Image not found",
-                    contentScale = ContentScale.Crop
-                )
-            }
+            contentScale = ContentScale.Crop,
         )
     }
 }
@@ -296,7 +294,7 @@ fun HomeScreenTopAppBar(
 ) {
     TopAppBar(
         title = {
-            Text("Woof.")
+            Text("Adopty")
         },
         backgroundColor = MaterialTheme.colors.surface,
         elevation = 0.dp,

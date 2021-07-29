@@ -139,7 +139,7 @@ fun DogDetailContent(
                 colorDarkText.copy(alpha = 0.7f)
         )
         Spacer(modifier = Modifier.height(24.dp))
-        AdopButton(
+        AdoptButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
@@ -149,7 +149,7 @@ fun DogDetailContent(
 }
 
 @Composable
-fun AdopButton(
+fun AdoptButton(
     modifier: Modifier = Modifier
 ) {
     Button(
