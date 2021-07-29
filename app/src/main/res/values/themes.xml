@@ -18,6 +18,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">#FFFFFF</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true
         </item>
+
         <!-- Customize your theme here. -->
     </style>
 
