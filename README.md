@@ -7,14 +7,7 @@
 
 ## Description
 <!---  -->
-Adopty is a 🐶 dog adoption sample application built to demonstrate Jetpack Compose Ui.
-
-
-## :bulb: Motivation and Context
-<!--- Optionally point readers to interesting parts of your submission. -->
-<!--- What are you especially proud of? -->
-I took the #AndroidDevChallenge as a reason to learn Jetpack Compose for building a real world application. So I decided not to use any fake data in the Adopty app.
-Adopty app uses the [Petfinders api](https://www.petfinder.com/developers/v2/docs/) as a data source to show the lists of pets in the application.
+Adopty is a 🐶 dog adoption sample application built to demonstrate Jetpack Compose Ui. Adopty app uses the [Petfinders api](https://www.petfinder.com/developers/v2/docs/) as a data source to show the lists of pets in the application.
 
 
 ## :camera_flash: Screenshots
