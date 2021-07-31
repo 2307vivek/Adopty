@@ -44,22 +44,17 @@ import com.example.androiddevchallenge.ui.screen.home.HomeScreen
 import com.example.androiddevchallenge.ui.screen.home.HomeViewModel
 
 @Composable
-fun AdoptyApp(
-    onBulbClicked: () -> Unit
-) {
+fun AdoptyApp() {
     val context = LocalContext.current
     var isOnline by remember { mutableStateOf(checkIfOnline(context)) }
 
-    // TODO: add some navigation
     if (isOnline) {
-        AdoptyNavigation(onBulbClicked = onBulbClicked)
+        AdoptyNavigation()
     } else {
         OfflineDialog { isOnline = checkIfOnline(context) }
     }
 }
 
-// Taken from https://github.com/android/compose-samples/blob/main/Jetcaster/app/src/main/java/com/example/jetcaster/ui/JetcasterApp.kt
-// TODO: Use a better way to check internet connection
 @Suppress("DEPRECATION")
 private fun checkIfOnline(context: Context): Boolean {
     val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -68,9 +63,7 @@ private fun checkIfOnline(context: Context): Boolean {
 }
 
 @Composable
-fun AdoptyNavigation(
-    onBulbClicked: () -> Unit
-) {
+fun AdoptyNavigation() {
     val navController = rememberNavController()
     val viewModel: HomeViewModel = viewModel()
     NavHost(
@@ -82,7 +75,6 @@ fun AdoptyNavigation(
                 viewModel = viewModel,
                 navController = navController,
                 navBackStackEntry = it,
-                onBulbClicked = onBulbClicked
             )
         }
         composable(Screen.DogDetail.route) {
@@ -92,6 +84,11 @@ fun AdoptyNavigation(
             )
         }
     }
+}
+
+@Composable
+fun CheckData() {
+    val context = LocalContext.current
 }
 
 @Composable
