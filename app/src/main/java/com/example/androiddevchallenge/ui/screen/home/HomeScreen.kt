@@ -312,7 +312,7 @@ fun HomeScreenTopAppBar(
 }
 
 private fun setTheme(darkTheme: Boolean) {
-    if(darkTheme) {
+    if (darkTheme) {
         setLightTheme()
     } else
         setDarkTheme()
