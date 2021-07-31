@@ -24,11 +24,15 @@
 package com.example.androiddevchallenge.ui
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
+import androidx.core.splashscreen.SplashScreen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.androiddevchallenge.ui.theme.WoofTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,29 +40,18 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         setContent {
-            val darkTheme = isSystemInDarkTheme()
-            WoofTheme {
-                Surface {
-                    AdoptyApp(
-                        onBulbClicked = {
-                            if (darkTheme) {
-                                setLightTheme()
-                            } else {
-                                setDarkTheme()
-                            }
-                        }
-                    )
-                }
-            }
+            AppContent()
         }
     }
 
-    private fun setLightTheme() {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-    }
-
-    private fun setDarkTheme() {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+    @Composable
+    fun AppContent() {
+        WoofTheme {
+            Surface {
+                AdoptyApp()
+            }
+        }
     }
 }

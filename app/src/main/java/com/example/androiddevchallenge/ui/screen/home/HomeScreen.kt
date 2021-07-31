@@ -23,8 +23,10 @@
  */
 package com.example.androiddevchallenge.ui.screen.home
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -74,7 +76,6 @@ import com.example.androiddevchallenge.ui.screen.home.specialNeeds.DogSpecialNee
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
-    onBulbClicked: () -> Unit,
     navController: NavController,
     navBackStackEntry: NavBackStackEntry
 ) {
@@ -83,7 +84,7 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            HomeScreenTopAppBar(onBulbClicked)
+            HomeScreenTopAppBar(isSystemInDarkTheme())
         },
         content = {
             DogContent(
@@ -290,7 +291,7 @@ fun PetImage(
 
 @Composable
 fun HomeScreenTopAppBar(
-    onBulbClicked: () -> Unit
+    darkTheme: Boolean
 ) {
     TopAppBar(
         title = {
@@ -299,7 +300,7 @@ fun HomeScreenTopAppBar(
         backgroundColor = MaterialTheme.colors.surface,
         elevation = 0.dp,
         actions = {
-            IconButton(onClick = { onBulbClicked() }) {
+            IconButton(onClick = { setTheme(darkTheme) }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_bulb),
                     contentDescription = "Change theme button",
@@ -308,4 +309,19 @@ fun HomeScreenTopAppBar(
             }
         }
     )
+}
+
+private fun setTheme(darkTheme: Boolean) {
+    if(darkTheme) {
+        setLightTheme()
+    } else
+        setDarkTheme()
+}
+
+private fun setLightTheme() {
+    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+}
+
+private fun setDarkTheme() {
+    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 }
