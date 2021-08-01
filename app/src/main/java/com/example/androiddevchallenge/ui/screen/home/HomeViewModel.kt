@@ -50,7 +50,6 @@ class HomeViewModel @Inject constructor(
     private val _state = MutableStateFlow(HomeScreenViewState())
 
     private val _selectedDog = MutableStateFlow<Pet?>(null)
-
     val state: StateFlow<HomeScreenViewState>
         get() = _state
 
