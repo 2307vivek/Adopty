@@ -34,6 +34,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.splashscreen.SplashScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -44,12 +45,12 @@ import com.example.androiddevchallenge.ui.screen.home.HomeScreen
 import com.example.androiddevchallenge.ui.screen.home.HomeViewModel
 
 @Composable
-fun AdoptyApp() {
+fun AdoptyApp(splashScreenVisibleCondition: (SplashScreen.KeepOnScreenCondition) -> Unit) {
     val context = LocalContext.current
     var isOnline by remember { mutableStateOf(checkIfOnline(context)) }
 
     if (isOnline) {
-        AdoptyNavigation()
+        AdoptyNavigation(splashScreenVisibleCondition)
     } else {
         OfflineDialog { isOnline = checkIfOnline(context) }
     }
@@ -63,9 +64,16 @@ private fun checkIfOnline(context: Context): Boolean {
 }
 
 @Composable
-fun AdoptyNavigation() {
+fun AdoptyNavigation(splashScreenVisibleCondition: (SplashScreen.KeepOnScreenCondition) -> Unit) {
     val navController = rememberNavController()
     val viewModel: HomeViewModel = viewModel()
+
+    splashScreenVisibleCondition {
+        viewModel.state.value.run {
+            petState.loading || specialNeedsDogState.loading
+        }
+    }
+
     NavHost(
         navController = navController,
         startDestination = Screen.Home.route,

@@ -44,33 +44,27 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavBackStackEntry
 import com.example.androiddevchallenge.model.Pet
 import com.example.androiddevchallenge.model.PetListResponse
 import com.example.androiddevchallenge.model.PetState
 import com.example.androiddevchallenge.ui.screen.home.DogHeading
 import com.example.androiddevchallenge.ui.screen.home.PetImage
-import com.example.androiddevchallenge.utils.hiltViewModel
 
 @Composable
 fun DogSpecialNeedList(
     lazyListState: LazyListState,
-    navBackStackEntry: NavBackStackEntry,
+    specialNeedsDogsState: PetState<PetListResponse>,
     onDogSelected: (Pet) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val viewModel: DogSpecialNeedViewModel = navBackStackEntry.hiltViewModel()
-    val dogState by viewModel.dogsState.collectAsState()
 
     Column(modifier = modifier) {
         DogSpecialNeedsContent(
-            dogState = dogState,
+            specialNeedsDogsState = specialNeedsDogsState,
             lazyListState = lazyListState,
             onDogSelected = onDogSelected,
             modifier = modifier.wrapContentHeight(unbounded = true)
@@ -80,7 +74,7 @@ fun DogSpecialNeedList(
 
 @Composable
 fun DogSpecialNeedsContent(
-    dogState: PetState<PetListResponse>,
+    specialNeedsDogsState: PetState<PetListResponse>,
     lazyListState: LazyListState,
     onDogSelected: (Pet) -> Unit,
     modifier: Modifier = Modifier
@@ -94,17 +88,17 @@ fun DogSpecialNeedsContent(
                 .padding(bottom = 8.dp, start = 16.dp, top = 8.dp)
                 .fillMaxWidth()
         )
-        if (dogState.loading) {
+        if (specialNeedsDogsState.loading) {
             CircularProgressIndicator()
-        } else if (dogState.isSuccessfull) {
+        } else if (specialNeedsDogsState.isSuccessful) {
             DogSpecialNeedList(
                 lazyListState = lazyListState,
-                dogList = dogState.data!!.animals,
+                dogList = specialNeedsDogsState.data!!.animals,
                 onDogSelected = onDogSelected,
                 modifier = modifier
             )
-        } else if (!dogState.isSuccessfull) {
-            Text(text = "Error ${dogState.error}")
+        } else if (!specialNeedsDogsState.isSuccessful) {
+            Text(text = "Error ${specialNeedsDogsState.error}")
         }
     }
 }

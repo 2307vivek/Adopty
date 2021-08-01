@@ -46,11 +46,12 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _selectedBreed = MutableStateFlow<DogBreed?>(null)
-    private val _petState = MutableStateFlow<PetState<PetListResponse>?>(null)
+    private val _petState = MutableStateFlow<PetState<PetListResponse>>(PetState())
     private val _state = MutableStateFlow(HomeScreenViewState())
+    private val _specialNeedsDogsState =
+        MutableStateFlow<PetState<PetListResponse>>(PetState())
 
     private val _selectedDog = MutableStateFlow<Pet?>(null)
-
     val state: StateFlow<HomeScreenViewState>
         get() = _state
 
@@ -59,15 +60,18 @@ class HomeViewModel @Inject constructor(
 
     init {
         onBreedSelected(DogBreed("Affenpinscher"))
+        getSpecialNeedsDogs()
 
         viewModelScope.launch {
             combine(
                 _petState,
+                _specialNeedsDogsState,
                 _selectedBreed,
                 petRepository.getDogBreeds()
-            ) { petState, selectedBreed, dogBreeds ->
+            ) { petState, specialNeedsDogsState, selectedBreed, dogBreeds ->
                 HomeScreenViewState(
                     petState = petState,
+                    specialNeedsDogState = specialNeedsDogsState,
                     dogBreeds = dogBreeds,
                     selectedBreed = selectedBreed
                 )
@@ -86,6 +90,15 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun getSpecialNeedsDogs() {
+        viewModelScope.launch {
+            petRepository.getPetsSpecialNeeds()
+                .onStart { _specialNeedsDogsState.value = PetState(loading = true) }
+                .map { result -> PetState.fromResult(result) }
+                .collect { state -> _specialNeedsDogsState.value = state }
+        }
+    }
+
     fun onBreedSelected(breed: DogBreed) {
         _selectedBreed.value = breed
         getPets(breed)
@@ -96,7 +109,8 @@ class HomeViewModel @Inject constructor(
     }
 
     data class HomeScreenViewState(
-        val petState: PetState<PetListResponse>? = null,
+        val petState: PetState<PetListResponse> = PetState(),
+        val specialNeedsDogState: PetState<PetListResponse> = PetState(),
         val dogBreeds: List<DogBreed> = emptyList(),
         val selectedBreed: DogBreed? = null
     )

@@ -93,6 +93,7 @@ fun HomeScreen(
                 selectedBreed = viewState.selectedBreed,
                 dogBreeds = viewState.dogBreeds,
                 petState = viewState.petState,
+                specialNeedsDogsState = viewState.specialNeedsDogState,
                 lazyListState = dogsSpecialNeedLazyListState,
                 navBackStackEntry = navBackStackEntry,
                 onDogSelected = {
@@ -110,7 +111,8 @@ fun DogContent(
     onBreedSelected: (DogBreed) -> Unit,
     selectedBreed: DogBreed?,
     dogBreeds: List<DogBreed>,
-    petState: PetState<PetListResponse>?,
+    petState: PetState<PetListResponse>,
+    specialNeedsDogsState: PetState<PetListResponse>,
     lazyListState: LazyListState,
     onDogSelected: (Pet) -> Unit,
     navBackStackEntry: NavBackStackEntry
@@ -125,11 +127,11 @@ fun DogContent(
             )
 
             DogBreedContent(
-                pets = petState!!,
+                pets = petState,
+                specialNeedsDogs = specialNeedsDogsState,
                 lazyListState = lazyListState,
                 onDogSelected = onDogSelected,
                 modifier = Modifier.fillMaxSize(),
-                navBackStackEntry = navBackStackEntry
             )
         }
     } else {
@@ -140,16 +142,16 @@ fun DogContent(
 @Composable
 fun DogBreedContent(
     pets: PetState<PetListResponse>,
+    specialNeedsDogs: PetState<PetListResponse>,
     lazyListState: LazyListState,
     onDogSelected: (Pet) -> Unit,
-    navBackStackEntry: NavBackStackEntry,
     modifier: Modifier
 ) {
     LazyColumn(modifier = modifier) {
         item {
             DogSpecialNeedList(
                 lazyListState = lazyListState,
-                navBackStackEntry = navBackStackEntry,
+                specialNeedsDogsState = specialNeedsDogs,
                 onDogSelected = onDogSelected,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -177,7 +179,7 @@ fun DogBreedContent(
                     )
                 }
             }
-        } else if (pets.isSuccessfull) {
+        } else if (pets.isSuccessful) {
             items(pets.data!!.animals) { pet ->
                 PetItem(
                     pet,
