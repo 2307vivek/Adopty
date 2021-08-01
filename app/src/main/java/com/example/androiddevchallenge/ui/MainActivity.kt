@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         splashScreen = installSplashScreen()
         setContent {
-            AppContent{
+            AppContent {
                 splashScreen.setKeepVisibleCondition(it)
             }
         }

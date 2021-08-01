@@ -28,7 +28,7 @@ data class PetState<T>(
     val data: T? = null,
     val error: String? = null
 ) {
-    val isSuccessfull = error == null && !loading
+    val isSuccessful = error == null && !loading
 
     companion object {
         fun <T : Any> fromResult(result: Result<T>): PetState<T> = when (result) {

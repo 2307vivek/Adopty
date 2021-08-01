@@ -25,7 +25,6 @@ package com.example.androiddevchallenge.ui
 
 import android.content.Context
 import android.net.ConnectivityManager
-import androidx.core.splashscreen.SplashScreen
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -35,6 +34,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.splashscreen.SplashScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -69,7 +69,9 @@ fun AdoptyNavigation(splashScreenVisibleCondition: (SplashScreen.KeepOnScreenCon
     val viewModel: HomeViewModel = viewModel()
 
     splashScreenVisibleCondition {
-        viewModel.state.value.petState!!.loading
+        viewModel.state.value.run {
+            petState.loading || specialNeedsDogState.loading
+        }
     }
 
     NavHost(
