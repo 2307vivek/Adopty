@@ -45,7 +45,7 @@ class HomeViewModel @Inject constructor(
     private val petRepository: PetRepository
 ) : ViewModel() {
 
-    private val _selectedBreed = MutableStateFlow<DogBreed?>(null)
+    private val _selectedBreed = MutableStateFlow<DogBreed?>(DogBreed())
     private val _petState = MutableStateFlow<PetState<PetListResponse>>(PetState())
     private val _state = MutableStateFlow(HomeScreenViewState())
     private val _specialNeedsDogsState =
@@ -59,7 +59,7 @@ class HomeViewModel @Inject constructor(
         get() = _selectedDog
 
     init {
-        onBreedSelected(DogBreed("Affenpinscher"))
+        onBreedSelected(DogBreed())
         getSpecialNeedsDogs()
 
         viewModelScope.launch {
@@ -112,6 +112,6 @@ class HomeViewModel @Inject constructor(
         val petState: PetState<PetListResponse> = PetState(),
         val specialNeedsDogState: PetState<PetListResponse> = PetState(),
         val dogBreeds: List<DogBreed> = emptyList(),
-        val selectedBreed: DogBreed? = null
+        val selectedBreed: DogBreed? = DogBreed()
     )
 }

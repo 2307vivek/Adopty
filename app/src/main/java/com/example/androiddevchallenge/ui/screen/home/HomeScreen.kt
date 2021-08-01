@@ -62,7 +62,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.androiddevchallenge.R
@@ -77,7 +76,6 @@ import com.example.androiddevchallenge.ui.screen.home.specialNeeds.DogSpecialNee
 fun HomeScreen(
     viewModel: HomeViewModel,
     navController: NavController,
-    navBackStackEntry: NavBackStackEntry
 ) {
     val viewState by viewModel.state.collectAsState()
     val dogsSpecialNeedLazyListState = rememberLazyListState()
@@ -95,7 +93,6 @@ fun HomeScreen(
                 petState = viewState.petState,
                 specialNeedsDogsState = viewState.specialNeedsDogState,
                 lazyListState = dogsSpecialNeedLazyListState,
-                navBackStackEntry = navBackStackEntry,
                 onDogSelected = {
                     viewModel.onDogSelected(it)
                     navController.navigate(Screen.DogDetail.route)
@@ -115,7 +112,6 @@ fun DogContent(
     specialNeedsDogsState: PetState<PetListResponse>,
     lazyListState: LazyListState,
     onDogSelected: (Pet) -> Unit,
-    navBackStackEntry: NavBackStackEntry
 ) {
     if (dogBreeds.isNotEmpty() && selectedBreed != null) {
         Column(modifier = modifier) {

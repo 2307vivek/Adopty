@@ -82,7 +82,6 @@ fun AdoptyNavigation(splashScreenVisibleCondition: (SplashScreen.KeepOnScreenCon
             HomeScreen(
                 viewModel = viewModel,
                 navController = navController,
-                navBackStackEntry = it,
             )
         }
         composable(Screen.DogDetail.route) {
@@ -92,11 +91,6 @@ fun AdoptyNavigation(splashScreenVisibleCondition: (SplashScreen.KeepOnScreenCon
             )
         }
     }
-}
-
-@Composable
-fun CheckData() {
-    val context = LocalContext.current
 }
 
 @Composable
