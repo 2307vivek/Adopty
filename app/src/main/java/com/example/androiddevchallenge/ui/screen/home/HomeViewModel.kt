@@ -35,8 +35,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -84,8 +82,6 @@ class HomeViewModel @Inject constructor(
     private fun getPets(breed: DogBreed) {
         viewModelScope.launch {
             petRepository.getPets(breed)
-                .onStart { _petState.value = PetState(loading = true) }
-                .map { result -> PetState.fromResult(result) }
                 .collect { state -> _petState.value = state }
         }
     }
@@ -93,8 +89,6 @@ class HomeViewModel @Inject constructor(
     private fun getSpecialNeedsDogs() {
         viewModelScope.launch {
             petRepository.getPetsSpecialNeeds()
-                .onStart { _specialNeedsDogsState.value = PetState(loading = true) }
-                .map { result -> PetState.fromResult(result) }
                 .collect { state -> _specialNeedsDogsState.value = state }
         }
     }
