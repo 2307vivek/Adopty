@@ -165,35 +165,39 @@ fun DogBreedContent(
             )
         }
 
-        if (pets.loading) {
-            item {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.padding(top = 16.dp)
+        when {
+            pets.loading -> {
+                item {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.padding(top = 16.dp)
+                        )
+                    }
+                }
+            }
+            pets.isSuccessful -> {
+                items(pets.data!!.animals) { pet ->
+                    PetItem(
+                        pet,
+                        onClick = onDogSelected,
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .fillMaxWidth()
                     )
                 }
             }
-        } else if (pets.isSuccessful) {
-            items(pets.data!!.animals) { pet ->
-                PetItem(
-                    pet,
-                    onClick = onDogSelected,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
-            }
-        } else if (pets.error != null) {
-            item {
-                Text(
-                    text = pets.error,
-                    modifier = Modifier.padding(16.dp)
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center
-                )
+            pets.error != null -> {
+                item {
+                    Text(
+                        text = pets.error,
+                        modifier = Modifier.padding(16.dp)
+                            .fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
     }
