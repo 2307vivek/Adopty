@@ -34,15 +34,8 @@ import com.example.androiddevchallenge.ui.screen.home.HomeScreen
 import com.example.androiddevchallenge.ui.screen.home.HomeViewModel
 
 @Composable
-fun AdoptyNavigation(splashScreenVisibleCondition: (SplashScreen.KeepOnScreenCondition) -> Unit) {
+fun AdoptyNavigation(viewModel: HomeViewModel) {
     val navController = rememberNavController()
-    val viewModel: HomeViewModel = viewModel()
-
-    splashScreenVisibleCondition {
-        viewModel.state.value.run {
-            petState.loading || specialNeedsDogState.loading
-        }
-    }
 
     NavHost(
         navController = navController,
