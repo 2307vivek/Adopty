@@ -12,11 +12,11 @@ Adopty is a 🐶 dog adoption sample application built to demonstrate Jetpack Co
 
 ## :camera_flash: Screenshots
 <!-- You can add more screenshots here if you like -->
-<img src="/results/screenshot_1.png" width="260">&emsp;<img src="/results/screenshot_2.png" width="260">
+<img src="/results/screenshot_1.png" width="260">
 
 ## 🌑 Dark Mode
 <!-- You can add more screenshots here if you like -->
-<img src="/art/screenshot_1_dark.png" width="260">&emsp;<img src="/art/screenshot_2_dark.png" width="260">
+<img src="/art/screenshot_2.png" width="260">
 
 ## Credits
 Some of the dog illustrations in this app from Freepik.com 
