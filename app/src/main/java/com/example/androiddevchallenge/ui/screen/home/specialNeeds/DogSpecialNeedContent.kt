@@ -83,7 +83,7 @@ fun DogSpecialNeedsContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         DogHeading(
-            text = "Dogs needing special care",
+            text = "Dogs with special needs",
             modifier = Modifier
                 .padding(bottom = 8.dp, start = 16.dp, top = 8.dp)
                 .fillMaxWidth()
