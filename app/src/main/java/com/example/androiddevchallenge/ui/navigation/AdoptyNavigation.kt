@@ -25,6 +25,8 @@ package com.example.androiddevchallenge.ui.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
@@ -50,9 +52,9 @@ fun AdoptyNavigation(viewModel: HomeViewModel) {
                 when (initial.destination.route) {
                     Screen.DogDetail.route ->
                         slideInHorizontally(
-                            initialOffsetX = { 1000 },
+                            initialOffsetX = { 300 },
                             animationSpec = tween(300)
-                        )
+                        ) + fadeIn(animationSpec = tween(300))
                     else -> null
                 }
             },
@@ -60,19 +62,19 @@ fun AdoptyNavigation(viewModel: HomeViewModel) {
                 when (target.destination.route) {
                     Screen.DogDetail.route ->
                         slideOutHorizontally(
-                            targetOffsetX = { -1000 },
+                            targetOffsetX = { -300 },
                             animationSpec = tween(300)
-                        )
+                        ) + fadeOut(animationSpec = tween(300))
                     else -> null
                 }
             },
-            popEnterTransition = { initial, target ->
+            popEnterTransition = { initial, _ ->
                 when (initial.destination.route) {
                     Screen.DogDetail.route ->
                         slideInHorizontally(
-                            initialOffsetX = { -1000 },
+                            initialOffsetX = { -300 },
                             animationSpec = tween(300)
-                        )
+                        ) + fadeIn(animationSpec = tween(300))
                     else -> null
                 }
             }
@@ -88,9 +90,9 @@ fun AdoptyNavigation(viewModel: HomeViewModel) {
                 when (initial.destination.route) {
                     Screen.Home.route ->
                         slideInHorizontally(
-                            initialOffsetX = { 1000 },
+                            initialOffsetX = { 300 },
                             animationSpec = tween(300)
-                        )
+                        ) + fadeIn(animationSpec = tween(300))
                     else -> null
                 }
             },
@@ -98,19 +100,19 @@ fun AdoptyNavigation(viewModel: HomeViewModel) {
                 when (target.destination.route) {
                     Screen.Home.route ->
                         slideOutHorizontally(
-                            targetOffsetX = { -1000 },
+                            targetOffsetX = { -300 },
                             animationSpec = tween(300)
-                        )
+                        ) + fadeOut(animationSpec = tween(300))
                     else -> null
                 }
             },
-            popExitTransition = { initial, target ->
+            popExitTransition = { _, target ->
                 when (target.destination.route) {
                     Screen.Home.route ->
                         slideOutHorizontally(
-                            targetOffsetX = { 1000 },
+                            targetOffsetX = { 300 },
                             animationSpec = tween(300)
-                        )
+                        ) + fadeOut(animationSpec = tween(300))
                     else -> null
                 }
             }
