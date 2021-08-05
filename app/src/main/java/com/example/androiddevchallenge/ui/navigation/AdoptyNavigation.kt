@@ -23,31 +23,98 @@
  */
 package com.example.androiddevchallenge.ui.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
-import androidx.core.splashscreen.SplashScreen
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.ui.screen.dogDetails.DogDetailScreen
 import com.example.androiddevchallenge.ui.screen.home.HomeScreen
 import com.example.androiddevchallenge.ui.screen.home.HomeViewModel
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
+@ExperimentalAnimationApi
 @Composable
 fun AdoptyNavigation(viewModel: HomeViewModel) {
-    val navController = rememberNavController()
+    val navController = rememberAnimatedNavController()
 
-    NavHost(
+    AnimatedNavHost(
         navController = navController,
         startDestination = Screen.Home.route,
     ) {
-        composable(Screen.Home.route) {
+        composable(
+            route = Screen.Home.route,
+            enterTransition = { initial, _ ->
+                when (initial.destination.route) {
+                    Screen.DogDetail.route ->
+                        slideInHorizontally(
+                            initialOffsetX = { 1000 },
+                            animationSpec = tween(300)
+                        )
+                    else -> null
+                }
+            },
+            exitTransition = { _, target ->
+                when (target.destination.route) {
+                    Screen.DogDetail.route ->
+                        slideOutHorizontally(
+                            targetOffsetX = { -1000 },
+                            animationSpec = tween(300)
+                        )
+                    else -> null
+                }
+            },
+            popEnterTransition = { initial, target ->
+                when (initial.destination.route) {
+                    Screen.DogDetail.route ->
+                        slideInHorizontally(
+                            initialOffsetX = { -1000 },
+                            animationSpec = tween(300)
+                        )
+                    else -> null
+                }
+            }
+        ) {
             HomeScreen(
                 viewModel = viewModel,
                 navController = navController,
             )
         }
-        composable(Screen.DogDetail.route) {
+        composable(
+            route = Screen.DogDetail.route,
+            enterTransition = { initial, _ ->
+                when (initial.destination.route) {
+                    Screen.Home.route ->
+                        slideInHorizontally(
+                            initialOffsetX = { 1000 },
+                            animationSpec = tween(300)
+                        )
+                    else -> null
+                }
+            },
+            exitTransition = { _, target ->
+                when (target.destination.route) {
+                    Screen.Home.route ->
+                        slideOutHorizontally(
+                            targetOffsetX = { -1000 },
+                            animationSpec = tween(300)
+                        )
+                    else -> null
+                }
+            },
+            popExitTransition = { initial, target ->
+                when (target.destination.route) {
+                    Screen.Home.route ->
+                        slideOutHorizontally(
+                            targetOffsetX = { 1000 },
+                            animationSpec = tween(300)
+                        )
+                    else -> null
+                }
+            }
+        ) {
             DogDetailScreen(
                 viewModel = viewModel,
                 navController = navController

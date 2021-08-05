@@ -25,6 +25,7 @@ package com.example.androiddevchallenge.ui
 
 import android.content.Context
 import android.net.ConnectivityManager
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -39,6 +40,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.androiddevchallenge.ui.navigation.AdoptyNavigation
 import com.example.androiddevchallenge.ui.screen.home.HomeViewModel
 
+@ExperimentalAnimationApi
 @Composable
 fun AdoptyApp(splashScreenVisibleCondition: (SplashScreen.KeepOnScreenCondition) -> Unit) {
     val context = LocalContext.current
