@@ -293,6 +293,7 @@ fun PetImage(
             contentDescription = "Pet Image",
             modifier = modifier,
             contentScale = ContentScale.Crop,
+            alignment = Alignment.TopCenter
         )
     }
 }

@@ -125,18 +125,18 @@ fun DogDetailContent(
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(24.dp))
-        DogDetails(
-            dog = dog,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(24.dp))
+//        DogDetails(
+//            dog = dog,
+//            modifier = Modifier.fillMaxWidth()
+//        )
+//        Spacer(modifier = Modifier.height(24.dp))
         Text(
             text = DefaultData.defaultDescription,
-            style = MaterialTheme.typography.body1,
+            style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Normal),
             color = if (MaterialTheme.colors.isLight)
-                colorTextBody.copy(alpha = 0.7f)
+                colorTextBody.copy(alpha = 0.8f)
             else
-                colorDarkText.copy(alpha = 0.7f)
+                colorDarkText.copy(alpha = 0.8f)
         )
         Spacer(modifier = Modifier.height(24.dp))
         AdoptButton(
@@ -179,9 +179,10 @@ fun DogNameAndBreed(
             style = MaterialTheme.typography.h4
         )
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+            val secBreed = if (breed.secondary == null) "" else ", ${breed.secondary}"
             Text(
-                text = "${breed.primary}, ${breed.secondary ?: ""}",
-                style = MaterialTheme.typography.body2.copy(fontWeight = FontWeight.SemiBold)
+                text = "${breed.primary}$secBreed",
+                style = MaterialTheme.typography.body2
             )
         }
     }

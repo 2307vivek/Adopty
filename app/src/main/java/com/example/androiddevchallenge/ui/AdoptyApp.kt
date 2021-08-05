@@ -46,15 +46,13 @@ fun AdoptyApp(splashScreenVisibleCondition: (SplashScreen.KeepOnScreenCondition)
     val context = LocalContext.current
     var isOnline by remember { mutableStateOf(checkIfOnline(context)) }
 
-    val viewModel: HomeViewModel = viewModel()
-
-    splashScreenVisibleCondition {
-        viewModel.state.value.run {
-            petState.loading || specialNeedsDogState.loading
-        }
-    }
-
     if (isOnline) {
+        val viewModel: HomeViewModel = viewModel()
+        splashScreenVisibleCondition {
+            viewModel.state.value.run {
+                petState.loading || specialNeedsDogState.loading
+            }
+        }
         AdoptyNavigation(viewModel)
     } else {
         OfflineDialog { isOnline = checkIfOnline(context) }
