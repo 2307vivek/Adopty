@@ -187,7 +187,7 @@ fun DogBreedContent(
                 )
             }
         } else if (pets.error != null) {
-            item { 
+            item {
                 Text(
                     text = pets.error,
                     modifier = Modifier.padding(16.dp)
