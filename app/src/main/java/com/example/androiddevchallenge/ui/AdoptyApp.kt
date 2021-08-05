@@ -35,14 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.example.androiddevchallenge.ui.navigation.Screen
-import com.example.androiddevchallenge.ui.screen.dogDetails.DogDetailScreen
-import com.example.androiddevchallenge.ui.screen.home.HomeScreen
-import com.example.androiddevchallenge.ui.screen.home.HomeViewModel
+import com.example.androiddevchallenge.ui.navigation.AdoptyNavigation
 
 @Composable
 fun AdoptyApp(splashScreenVisibleCondition: (SplashScreen.KeepOnScreenCondition) -> Unit) {
@@ -53,43 +46,6 @@ fun AdoptyApp(splashScreenVisibleCondition: (SplashScreen.KeepOnScreenCondition)
         AdoptyNavigation(splashScreenVisibleCondition)
     } else {
         OfflineDialog { isOnline = checkIfOnline(context) }
-    }
-}
-
-@Suppress("DEPRECATION")
-private fun checkIfOnline(context: Context): Boolean {
-    val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val activeNetwork = cm.activeNetworkInfo
-    return activeNetwork?.isConnectedOrConnecting == true
-}
-
-@Composable
-fun AdoptyNavigation(splashScreenVisibleCondition: (SplashScreen.KeepOnScreenCondition) -> Unit) {
-    val navController = rememberNavController()
-    val viewModel: HomeViewModel = viewModel()
-
-    splashScreenVisibleCondition {
-        viewModel.state.value.run {
-            petState.loading || specialNeedsDogState.loading
-        }
-    }
-
-    NavHost(
-        navController = navController,
-        startDestination = Screen.Home.route,
-    ) {
-        composable(Screen.Home.route) {
-            HomeScreen(
-                viewModel = viewModel,
-                navController = navController,
-            )
-        }
-        composable(Screen.DogDetail.route) {
-            DogDetailScreen(
-                viewModel = viewModel,
-                navController = navController
-            )
-        }
     }
 }
 
@@ -105,4 +61,11 @@ fun OfflineDialog(onRetry: () -> Unit) {
             }
         }
     )
+}
+
+@Suppress("DEPRECATION")
+private fun checkIfOnline(context: Context): Boolean {
+    val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetwork = cm.activeNetworkInfo
+    return activeNetwork?.isConnectedOrConnecting == true
 }
