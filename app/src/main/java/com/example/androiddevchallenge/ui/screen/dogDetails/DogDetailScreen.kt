@@ -80,7 +80,7 @@ fun DogDetailScreen(
         topBar = {
             DogDetailTopAppBar(
                 onBackButtonClicked = {
-                    navController.navigateUp()
+                    navController.popBackStack()
                 }
             )
         }
