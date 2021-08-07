@@ -7,8 +7,9 @@
 Adopty is a 🐶 dog adoption sample application built to demonstrate Jetpack Compose Ui. Adopty app uses modern android development tools, design principles and best practices.
 
 ## Features
-Adopty simply loads data form from the api and shows it in Jetpack compose `LazyList` composable. Adopty also demonstrate new api's and library's such as:
-- Demonstrates the use of android 12 [SplashScreen](https://developer.android.com/about/versions/12/features/splash-screen) api, including loading data in the background while the SplashScreen is shown on the screen.
+Adopty simply loads data form from the api and shows it in Jetpack compose `LazyList` composable. Adopty app uses the [Petfinders api](https://www.petfinder.com/developers/v2/docs/) as a data source to show the lists of pets in the application./
+
+- It also demonstrates the use of android 12 [SplashScreen](https://developer.android.com/about/versions/12/features/splash-screen) api, including loading data in the background while the SplashScreen is shown on the screen.
 - Demonstrates how to implement animations while navigation between screens in Jetpack compose applications using the [accompanist-navigation-animation](https://google.github.io/accompanist/navigation-animation/) library.
 
 ### Demo 📱
