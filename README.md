@@ -15,11 +15,13 @@ Adopty simply loads data form from the api and shows it in Jetpack compose `Lazy
 <img src="/art/demo.gif" width=260/>
 
 ## Built With 🛠
+- [Accompanist](https://google.github.io/accompanist/navigation-animation/) - For implementing animation while navigating between screens in Jetpack Compose app.
+- [SplashScreen](https://developer.android.com/about/versions/12/features/splash-screen) - For showing a splash screen.
 - [Kotlin](https://kotlinlang.org/) - Official programming language for Android development.
 - [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) - For loading data asynchronously.
 - [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/) - A flow is conceptually a stream of data that can be computed asynchronously.
 - [Android Architecture Components](https://developer.android.com/topic/libraries/architecture) - Collection of libraries that help you design robust, testable, and maintainable apps.
-  - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) - Stores UI-related data that isn't destroyed on UI changes. 
+- [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) - Stores UI-related data that isn't destroyed on UI changes. 
 - [Dagger Hilt](https://dagger.dev/hilt/) - Hilt is a dependency injection library for Android 
 - [Retrofit](https://square.github.io/retrofit/) - A type-safe HTTP client for Android and Java.
 - [Coil-compose](https://coil-kt.github.io/coil/compose/) - An image loading library for Android backed by Kotlin Coroutines.
