@@ -23,6 +23,8 @@
  */
 package com.example.androiddevchallenge.ui.screen.dogDetails
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -54,6 +56,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -76,12 +79,13 @@ fun DogDetailScreen(
     val selectedDog by viewModel.selectedDog.collectAsState()
     val scrollState = rememberScrollState()
 
+    val context = LocalContext.current
+
     Scaffold(
         topBar = {
             DogDetailTopAppBar(
-                onBackButtonClicked = {
-                    navController.popBackStack()
-                }
+                onBackButtonClicked = { navController.popBackStack() },
+                onMoreButtonClicked = { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
             )
         }
     ) {
@@ -100,6 +104,7 @@ fun DogDetailScreen(
                 )
                 DogDetailContent(
                     dog = dog,
+                    context = context,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(start = 16.dp, end = 16.dp)
@@ -112,6 +117,7 @@ fun DogDetailScreen(
 @Composable
 fun DogDetailContent(
     dog: Pet,
+    context: Context,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -125,11 +131,7 @@ fun DogDetailContent(
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(24.dp))
-//        DogDetails(
-//            dog = dog,
-//            modifier = Modifier.fillMaxWidth()
-//        )
-//        Spacer(modifier = Modifier.height(24.dp))
+
         Text(
             text = DefaultData.defaultDescription,
             style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Normal),
@@ -142,7 +144,10 @@ fun DogDetailContent(
         AdoptButton(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(60.dp)
+                .height(60.dp),
+            onClick = { message ->
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+            }
         )
         Spacer(modifier = Modifier.height(24.dp))
     }
@@ -150,10 +155,13 @@ fun DogDetailContent(
 
 @Composable
 fun AdoptButton(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (message: String) -> Unit
 ) {
     Button(
-        onClick = { /*TODO*/ },
+        onClick = {
+            onClick("Not Implemented")
+        },
         elevation = ButtonDefaults.elevation(
             defaultElevation = 1.dp,
             pressedElevation = 2.dp
@@ -238,7 +246,8 @@ fun DogAttribute(name: String, attr: String) {
 
 @Composable
 fun DogDetailTopAppBar(
-    onBackButtonClicked: () -> Unit
+    onBackButtonClicked: () -> Unit,
+    onMoreButtonClicked: (message: String) -> Unit
 ) {
     TopAppBar(
         title = { },
@@ -253,7 +262,7 @@ fun DogDetailTopAppBar(
         },
         elevation = 0.dp,
         actions = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { onMoreButtonClicked("Not Implemented") }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_baseline_more_vert_24),
                     contentDescription = "More Icon"
