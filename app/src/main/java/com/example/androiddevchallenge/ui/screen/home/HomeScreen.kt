@@ -292,6 +292,7 @@ fun PetImage(
                 builder = {
                     crossfade(true)
                     error(R.drawable.ic_dog)
+                    placeholder(R.drawable.ic_placeholder)
                 }
             ),
             contentDescription = "Pet Image",
