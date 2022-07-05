@@ -53,7 +53,7 @@ class PetAuthenticator @Inject constructor(
         return if (token.code() == 200) {
             session.saveToken(token.body()!!)
             Log.d("debuggg", "Authenticator refreshed token")
-            response.request().newBuilder()
+            response.request.newBuilder()
                 .header("Authorization", "Bearer ${token.body()!!.access_token}")
                 .build()
         } else null
