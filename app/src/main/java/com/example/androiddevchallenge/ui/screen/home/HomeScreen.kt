@@ -87,15 +87,15 @@ fun HomeScreen(
         },
         content = {
             DogContent(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().padding(it),
                 onBreedSelected = viewModel::onBreedSelected,
                 selectedBreed = viewState.selectedBreed,
                 dogBreeds = viewState.dogBreeds,
                 petState = viewState.petState,
                 specialNeedsDogsState = viewState.specialNeedsDogState,
                 lazyListState = dogsSpecialNeedLazyListState,
-                onDogSelected = {
-                    viewModel.onDogSelected(it)
+                onDogSelected = { pet ->
+                    viewModel.onDogSelected(pet)
                     navController.navigate(Screen.DogDetail.route)
                 }
             )
