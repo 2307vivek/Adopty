@@ -48,8 +48,8 @@ fun AdoptyNavigation(viewModel: HomeViewModel) {
     ) {
         composable(
             route = Screen.Home.route,
-            enterTransition = { initial, _ ->
-                when (initial.destination.route) {
+            enterTransition = {
+                when (initialState.destination.route) {
                     Screen.DogDetail.route ->
                         slideInHorizontally(
                             initialOffsetX = { 300 },
@@ -58,8 +58,8 @@ fun AdoptyNavigation(viewModel: HomeViewModel) {
                     else -> null
                 }
             },
-            exitTransition = { _, target ->
-                when (target.destination.route) {
+            exitTransition = {
+                when (targetState.destination.route) {
                     Screen.DogDetail.route ->
                         slideOutHorizontally(
                             targetOffsetX = { -300 },
@@ -68,8 +68,8 @@ fun AdoptyNavigation(viewModel: HomeViewModel) {
                     else -> null
                 }
             },
-            popEnterTransition = { initial, _ ->
-                when (initial.destination.route) {
+            popEnterTransition = {
+                when (initialState.destination.route) {
                     Screen.DogDetail.route ->
                         slideInHorizontally(
                             initialOffsetX = { -300 },
@@ -86,8 +86,8 @@ fun AdoptyNavigation(viewModel: HomeViewModel) {
         }
         composable(
             route = Screen.DogDetail.route,
-            enterTransition = { initial, _ ->
-                when (initial.destination.route) {
+            enterTransition = {
+                when (initialState.destination.route) {
                     Screen.Home.route ->
                         slideInHorizontally(
                             initialOffsetX = { 300 },
@@ -96,8 +96,8 @@ fun AdoptyNavigation(viewModel: HomeViewModel) {
                     else -> null
                 }
             },
-            exitTransition = { _, target ->
-                when (target.destination.route) {
+            exitTransition = {
+                when (targetState.destination.route) {
                     Screen.Home.route ->
                         slideOutHorizontally(
                             targetOffsetX = { -300 },
@@ -106,8 +106,8 @@ fun AdoptyNavigation(viewModel: HomeViewModel) {
                     else -> null
                 }
             },
-            popExitTransition = { _, target ->
-                when (target.destination.route) {
+            popExitTransition = {
+                when (targetState.destination.route) {
                     Screen.Home.route ->
                         slideOutHorizontally(
                             targetOffsetX = { 300 },
