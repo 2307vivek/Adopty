@@ -90,7 +90,7 @@ dependencies {
 
     // viewmodel and livedata
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.7.0"
 
     //dagger hilt
     implementation "androidx.hilt:hilt-navigation:1.0.0"
